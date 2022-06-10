@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - npm ci
+      - npm install
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION)
   build:
     commands:
