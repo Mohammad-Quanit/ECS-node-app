@@ -12,10 +12,11 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t ca-container-registry:testblue .
-      - docker tag ca-container-registry:testblue $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/ca-container-registry:testblue
+      - echo $AWS_ACCOUNT_ID in $AWS_REGION
+      - docker build -t app-container-registry:blueproject .
+      - docker tag app-container-registry:blueproject $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/app-container-registry:blueproject
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/ca-container-registry:testblue
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/app-container-registry:blueproject
