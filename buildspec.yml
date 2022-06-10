@@ -10,15 +10,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:blue .
-      - docker tag $REPOSITORY_URI:blue $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing image definitions file...
-      - printf '[{"name":"nodejs-docker","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
 cache:
     paths:
       - ~/.npm
