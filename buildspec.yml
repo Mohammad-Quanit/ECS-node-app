@@ -19,7 +19,7 @@ phases:
       - echo Pushing the Docker images...
       - docker push 605246879659.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"nodejs-docker","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
+      - printf '[{"name":"ecs-blue-container","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
 
 artifacts:
   files:
