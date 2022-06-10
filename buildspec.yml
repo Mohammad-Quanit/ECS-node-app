@@ -20,6 +20,14 @@ phases:
       - docker push 605246879659.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
       - echo Writing image definitions file...
       - printf '[{"name":"nodejs-docker","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
+      
+artifacts:
+  files:
+    - '**/*'
+  base-directory: base_dir
+  name: build-artifact-name
+  discard-paths: no
+
 cache:
     paths:
       - ~/.npm
