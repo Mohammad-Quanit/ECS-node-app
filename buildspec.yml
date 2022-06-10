@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Building application
       - docker build -t app-container-registry:latest .
-      - docker tag app-container-registry:latest app-container-registry:latest
+      - docker tag app-container-registry:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/app-container-registry:latest
   post_build:
     commands:
       - echo Pushing the Docker images...
