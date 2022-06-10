@@ -1,10 +1,15 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      docker: 18
   pre_build:
     commands:
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo ***********  INSTALLING DEPENDENCIES *****************
       - npm install
+      - echo *********** $AWS_ACCOUNT_ID in $AWS_DEFAULT_REGION - $CODEBUILD_RESOLVED_SOURCE_VERSION - $REPOSITORY_URI:$IMAGE_TAG ***********
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
