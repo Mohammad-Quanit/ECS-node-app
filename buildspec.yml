@@ -7,21 +7,19 @@ phases:
   pre_build:
     commands:
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - echo ***********  INSTALLING DEPENDENCIES *****************
       - npm install
-      - echo *********** $AWS_ACCOUNT_ID in $AWS_DEFAULT_REGION - $CODEBUILD_RESOLVED_SOURCE_VERSION - $REPOSITORY_URI:$IMAGE_TAG ***********
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
       - echo Building application
-      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
-      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t app-container-registry:latest .
+      - docker tag app-container-registry:latest app-container-registry:latest
   post_build:
     commands:
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push app-container-registry:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"nodejs-docker","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"nodejs-docker","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
 cache:
     paths:
       - ~/.npm
