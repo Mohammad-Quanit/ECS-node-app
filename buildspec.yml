@@ -1,23 +1,21 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      docker: 18
   pre_build:
     commands:
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      # - npm ci
+      - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_REGION)
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t ca-container-registry:testblue .
+      - docker tag ca-container-registry:testblue $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/ca-container-registry:testblue
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
-cache:
-    paths:
-      - ~/.npm
-      - /var/lib/docker/**/*
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/ca-container-registry:testblue
