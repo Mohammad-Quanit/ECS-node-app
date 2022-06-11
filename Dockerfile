@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/node:17.0.0
+FROM public.ecr.aws/docker/library/node:17
 
 # Create app directory
 WORKDIR /usr/src/app
