@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     AWS_REGION: us-west-2 # checkfor specific region
-    AWS_ACCOUNT_ID: 605246879659  # account id
+    AWS_ACCOUNT_ID: 605246879659 # account id
     IMAGE_NAME: app-container-registry # image name
 
 phases:
@@ -25,29 +25,26 @@ phases:
       - echo Pushing the Docker images...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"node-app-container","imageUri":"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest"}]' > imagedefinitions.json
+      - printf '[{"name":"node-app-container","imageUri":"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest"}]' > imageDetail.json
 
+# artifacts:
+#   files:
+#     - '**/*'
 artifacts:
   files:
-    - '**/*'
-# artifacts:
-#   files: 
-#     - 'image*.json'
-#     - 'appspec.yaml'
-#     - 'taskdef.json'
-#   secondary-artifacts:
-#     DefinitionArtifact:
-#       files:
-#         - appspec.yaml
-#         - taskdef.json
-#     ImageArtifact:
-#       files:
-#         - imageDetail.json
+    - "image*.json"
+    - "appspec.yaml"
+    - "taskdef.json"
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yaml
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
 
 cache:
-    paths:
-      - ~/.npm
-      - /var/lib/docker/**/*
-
-
-
+  paths:
+    - ~/.npm
+    - /var/lib/docker/**/*
