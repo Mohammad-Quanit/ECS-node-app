@@ -8,18 +8,18 @@ phases:
     commands:
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - npm install
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com
   build:
     commands:
       - echo Building application
       - docker build -t app-container-registry:latest .
-      - docker tag app-container-registry:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/app-container-registry:latest
+      - docker tag app-container-registry:latest $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/app-container-registry:latest
   post_build:
     commands:
       - echo Pushing the Docker images...
       - docker push 605246879659.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"ecs-blue-container","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
+      - printf '[{"name":"node-app-container","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
 
 artifacts:
   files:
