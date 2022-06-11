@@ -17,7 +17,7 @@ phases:
   post_build:
     commands:
       - echo Pushing the Docker images...
-      - docker push 605246879659.dkr.ecr.us-east-1.amazonaws.com/app-container-registry:latest
+      - docker push 605246879659.dkr.ecr.us-west-2.amazonaws.com/app-container-registry:latest
       - echo Writing image definitions file...
       - printf '[{"name":"node-app-container","imageUri":"%s"}]' app-container-registry:latest > imagedefinitions.json
 
