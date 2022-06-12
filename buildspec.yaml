@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     AWS_REGION: us-west-2 # checkfor specific region
-    AWS_ACCOUNT_ID: 605246879659 # account id
+    AWS_ACCOUNT_ID: xxxxxxxxxx # account id
     IMAGE_NAME: app-container-registry # image name
 
 phases:
